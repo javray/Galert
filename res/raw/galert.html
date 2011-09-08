@@ -1,0 +1,340 @@
+<!DOCTYPE html">
+<html>
+	<head>
+		<title></title>
+		<meta name="viewport" content="height=500,width=280,initial-scale=1.0,maximum-scale=1.0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<style type="text/css">
+		
+		body {background: #222; padding: 1em; margin: 0; font-size: 20px; color: #777;}
+		 body * {margin: 0; padding: 0; font-family: helvetica, sans-serif;}
+		 p {margin: 0 0 1em; font-size: 14px;}
+		
+		html {
+		height:90%;
+		width:90%;
+		overflow:auto;
+		}
+		
+		body {
+		height:100%;
+		width:100%;
+		overflow:hidden;
+		overflow-x: visible;
+		overflow-y: visible
+		}
+
+		 input, textarea, select {
+		   border: 1px solid #111;
+		   padding: 0.5em;
+		   font-size: 15px;
+	     line-height: 1.2em;
+	     width: 95%;
+	     background: #444;
+	     color: #fff;
+	     font-family: helvetica, sans-serif;
+	     background: -webkit-gradient(linear, left top, left bottom, from(#222), to(#444));
+	     -webkit-appearance: none;
+	 	   -webkit-box-shadow: 1px 1px 1px #333;
+		 }
+
+		 input:focus, textarea:focus, select:focus {outline-color: #c00;}
+
+		 textarea {
+	     height: 55px;
+	     background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #222), color-stop(0.05, #333));
+	   }
+
+	   select {
+	     padding: 0.5em 1em 0.5em 0.75em;
+	     background: #444 url("data:image/png;base64,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") no-repeat right center;
+	     -webkit-background-size: 1600px 32px;
+	   }
+
+		 input[type=text] {
+	     background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #222), color-stop(0.12, #333));
+	   }
+
+	   input[type=submit] {
+	     width: auto;
+	     padding: 0.25em 1em;
+	     line-height: 1.5em;
+	     background: -webkit-gradient(linear, left top, left bottom, from(#a00), to(#600));
+	     border: 2px solid #c00;
+	     text-shadow: 0 0 2px #300;
+	     font-weight: bold;
+	     -webkit-box-shadow: 1px 1px 3px #000;
+	     margin-right: 0.5em;
+	   }
+
+	   input[type=button] {
+	      width: auto;
+	      padding: 0.25em 1em;
+	      line-height: 1.5em;
+	      background: -webkit-gradient(linear, left top, left bottom, from(#333), to(#222));
+	      border: 2px solid #444;
+	      text-shadow: 0 0 2px #300;
+	      font-weight: bold;
+	      color: #999;
+	      -webkit-box-shadow: 1px 1px 3px #000;
+	    }
+
+	   input[type=checkbox],
+	   input[type=radio] {
+	     display: inline-block;
+	     font-size: 15px;
+	     line-height: 1em;
+	     margin: 0 0.25em 0 0;
+	     padding: 0;
+	     width: 1.25em;
+	     height: 1.25em;
+	     -webkit-border-radius: 0.25em;
+	     vertical-align: text-top;
+	   }
+
+	   input[type=radio] {
+	      -webkit-border-radius: 2em;
+	    }
+
+	   input[type=checkbox]:checked {
+	     background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAIAAAAn5KxJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABP5JREFUeNrsmN9vG0UQx2ft5Gznfvici3/FjVPSJlABVVEeEBJSERJCqnjgjSf+RNQ3Sl8Q/wAg9QEVETkhbhwnJcnZF/tu72Iv01mddYmD5M0PUNGtVtHGO+f7+LuzM7PLNjc34W1oGXhLWgqagqagKWgKmoKmoFdqc9d5mMUDcRNmNw/KqGcSyzEmCEGD5GJNLCdmE8tbB2X0DPZ5+puhd58l+jimnEv0iVkUm4lbBZWUGsAC9TzhIkEAMADwaXAWfy/OFgB0GmQIEWeH1EGdNbu8vKxKaQE4ABWAOsDjk5NRPp9jLJtY+izBFQGWAKoAy0J86rq8UNBoSsSUaqD1en120HlSCCnxx60CPOl2H+3uPhwOXduWizsiSwQy6ZesAKwJ8U2rtdHtNhjrGwaQtCGxjlRYFUClThaJhJRfdrvVTqeDn3D+ge/3SyVgTP4YgyibABtCfNVqQa+3j/J73jJjh4bhk5OECYee6e21Wm1GOScLig88OThAyi69r49knG/4/pB0Rb8sATQA1oX4fHs76vXaJB7CVTyvlMm0dN2jf6M4CNykoiyh6GPX/ajd7hClbJJ1zffBtk3GUPJ3hPh4ezskStlGtJmanucXCn/k87j5+G0oKiOO3O+jXO6R75uc9xOzkrXh++Ni0Rbiwc5OklI29OzIsp7Van8BnBLo7G6arVars9iJWFR0wRzAiW1/6PvGZawV31903bDfv0CJG2vesp7evdtm7CgBCjcLCnGOkUEKifvF4ntBoE+xjjgfcn44RZmzrOerqy3G0LNPEj46K2ilUpk9mInzfVAs3kNdwzDJyqlfoNQs66dm83fGdgFeA3iK664GOsnm40RgZ8ViIwgusF6kNM1fm82XjG0DoJwuyakUm968q1wuX0FRIGddoMA+tqxyEIzDkE/ZYywzTXNrZWWfsR0AjKZHlGwjRcrr1qPiFixvRlFZExUomuJjdyhevv/qVeh5h5fZo8boFah3zzR7tNMDknN0hVy/tLSkRCmTk8yi7wrxyd5e5Hntf36qT6wNzpE1oBwxSZ5KrGqgGhUlZcrjSPkFUp6etqf8Mn9+40vWe0FwRKwBzZ6p5nrHcWYHxVBvU3V3X4ivO52zKUrc46ZhLGjahTggWTc4bxuGRyWpchydEVSmpQKBNoT4dn+fXUY5bxhb9fqxaZbDcJrVDMN1zl8YhkusoVJRsri4OHuZl6Nt9Nnp6YPj4/3zCfANpa7/Uq/vMYaJp2cYdzg3oijJiovuhKGXy73UNNWYrwCaodiJogaatsIY1h9+zCopf6zVfktEddcw7qOuMatG9eGfjvPcsq6QnBRAWXymw73iFgp3sJwjVqyJsrr+fa0mcw+Wf8cU1QMsPgxjIwzNKAqI8rXjPCuVOnHYD5V8tISVucopXpYmKEM3n3cymVXfD3T9u2p1i3KPhJB1Mae1buv6ehguRdGO4/xg2+jWB1SUDBV3vcIpVJ53hyQYEMqhbW/Ozb3QdZcqN/y8FwemkJYVxzjVrlYfDgY/0x46pj5Uz/VsbW1N9bico2gqz8FafMwYxEFnFO+8AhUDOg2yhC5P1YM4jiplJrVzvYiP7fIsLwvTyc1ClNBJxCWSH19AjM6b3e4FxIR1TArJOlpcdqUzjg/EfMps/O9c6UjW0Qy3X+P//JJMtXi7fo2XXuSmoCloCpqCpqAp6P8e9G8BBgDbQkY1YxJXZAAAAABJRU5ErkJggg==") no-repeat center center;
+	     -webkit-background-size: 28px 28px;
+	   }
+
+	   input[type=radio]:checked {
+	      background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAIAAAAn5KxJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABClJREFUeNrsmd9v2zYQx0lZtuXfid38aGYjwN66PeYPWIG+9v/dXvfY9wEtMPQHEL+s8YzasSPLlHg9HHEEZSUtlTjbgkk4ELJNih99yTseaXlxcSGewhWIJ3JVoBVoBVqBVqD/E9Dw4Y+QHnXg3wKVhdLcyDwc5EHhAdDhvRElTx3JpbxNSDTNpSygPxaodEBrXAaO2QoW0VpG32T3nQ9hWUqrX40tdModUMRKuQyY0rxAWdbwHpQBk6E1hKiTmY8BxxGjYkqmyLZ0Lxm3LGtYNpgZyjohojXJGkxcc0Az5kNL6Kdtfh5npYYeAEoFoICFRL5IiBabwTUTQPBwG8SYxd6ZvqUma4mhtzPSUCJcW4iOEF26aRN3w1EUKTdC3FDlIijw+8B+FQVHzjqDIuJAiL4QPSHGcfxiNju5vu4kKKJYN5t/9Xrvnj27bLWuqZVkITPHYO+KBqzoDuWhECOtf7m8PJrPZ0J8pLHGq5kk/SR5OZtdDYe/Tya1IBB50NQJWz5X7fT01Mffd7TskIoHQhxp/fr9+2C5/ECjnDmOgh8RfYhKr1bTgwMlZcpxIM2LCh6i1k5OTjwnqPH0iKZjl0Z8KMSr6RQpp3e3XWJlpX5Q6rLf33KoUrex7mGOQt7lja6IO4nj4/n87fea42u8mM8no9Gq1VpzcAjuyAoeBLrj+HV2/J9xCvq1vaLKH8ZjG8LsMgaPAWpjvglSR+v1R7+26Pg/rtcNAHf1ko7X723oIR8BjHu1lNr6gWK1SKkAQN426D6gTyfD91fUppXWYTdh2FAq8eimQZUzABtB7QP3OUc152yZE66R73O73VssfEB7VDkBSAsrk/YcevC7UAyN3QAogC3ABiAG+OPw8Mhv4LAaVo6p4ZYektIDM/C9fBXVLKQiLU228anZ/DwYjBeL6Tebj1HOwQAr3yAoNbcBX3srWhuNRp5Zc+DsPWp8M+t0frq56abp8m7KMIp+OzvD5XRBcWpNid+GcX1Bh8Phdz1JFnDt9gi7wbVxkqbnlDRlvNw3KV85R7h+/9fnz6+k/EKgKxoKV9ed3PT+oC5ukN/iGSWwv0+dzqLdxqGZaH2u9RlmLfX6stt9c3z8ZjD4W4gvZCtHTpudwB7TPGDxlLNtsj8p6ngVRX9G0U7iHJN+a0I0FrOWioXcZ+JsI5SgDtzgmjJQxJm8uxUxbmdwY9bSgGaOnPtUVLComfOl5jiwIcpbN3cJ45qbLVNq71W+dFKys5CAs4Mz+ZTNiYSzQGzz22XF3+sycpbYioCD6y6qKQsZspzS0dseQChn7dXlKcvt6yEf/w2KOf+oOU7mgrprr7tDKktZ+gACnCBgug+4/PYhmS5Mysc9JBP54zjpEMjCUQUU6v+jx45FiP/0Qe5+Iao/GyrQCrQCrUAr0KcH+lWAAQDLzpsqxCHOrQAAAABJRU5ErkJggg==") no-repeat center center;
+	      -webkit-background-size: 28px 28px;
+	    }
+		
+		* {
+		  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+		}
+		
+		</style>
+	</head>
+	<body onload="Galert.inicio()">
+				<form onsubmit="Galert.actualizar(); return false;">
+					<p>
+						<p><label id="luser" for="user">Usuario Gtalk</label></p>
+						<p><input type="email" id="user"></p> 
+						<p><label id="lpass" for="pass">Clave Gtalk</label></p>
+						<p><input type="password" id="pass"></p>
+					</p>
+					<hr/>
+					<p>
+						<p><label for="user_not">Notificar a</label></p>
+						<p><input type="email" id="user_not"></p>
+						<p>
+							<select name="daemon_run" id="daemon_run" onchange="Galert.daemon_stat()">
+							<option value="off">
+								Off
+							</option>
+							<option value="on">
+								On
+							</option>
+							</select>
+						<p>
+							<input type="checkbox" name="llamadas" id="llamadas"> 
+							<label for="llamadas">Llamadas</label> 
+							<input type="checkbox" name="sms" id="sms"> 
+							<label for="sms">SMS</label>
+						</p>
+					</p>
+				</form>
+					<script type="text/javascript">
+					
+					function xor_crypt_string(str, pwd) {
+
+						var to_enc = str,
+							xor_key = pwd,
+							the_res = '';
+
+						var j = 0;
+						for(i=0;i<to_enc.length;++i) {
+							the_res+=String.fromCharCode(to_enc.charCodeAt(i) ^ xor_key.charCodeAt(j));
+							j++;
+							if (j == xor_key.length) {
+								j = 0;
+							}
+						}
+
+						return the_res;
+					}
+
+					var Galert = {
+						droid: new Android(),
+						variables: ['user', 'pass', 'user_not'],
+						devid: 0,
+						inicio: function() {
+
+							var pref = this.droid.prefGetValue('conf', 'galert.conf'),
+								doc = document,
+								daemon_run = doc.getElementById('daemon_run'),
+								llamadas = doc.getElementById('llamadas'),
+								sms = doc.getElementById('sms'),
+								droid = this.droid;
+
+							this.devid = droid.getDeviceId().result;
+							var devid = this.devid;
+							
+							if (pref.result != null) {
+
+								var conf = JSON.parse(pref.result),
+									variables = this.variables;
+
+								for (var v in variables) {
+									doc.getElementById(variables[v]).value = xor_crypt_string(conf[variables[v]], devid) || ''; 
+								}
+
+								daemon_run.selectedIndex = conf['daemon_run'] == 'off' ? 0 : 1;
+								llamadas.checked = (conf['llamadas'] == 1);
+								sms.checked = (conf['sms'] == 1);
+							}
+						},
+						dialog: function(titulo, texto, boton) {
+							var droid = this.droid;
+							
+							droid.dialogCreateAlert(titulo, texto);
+							droid.dialogSetPositiveButtonText(boton);
+							droid.dialogShow();
+							
+						},
+						comprueba_campos: function() {
+
+							var error = 0,
+								variables = this.variables,
+								doc = document,
+								droid = this.droid,
+								dialog = this.dialog;
+
+							for (var v in variables) {  
+
+								var elemento = doc.getElementById(variables[v] + '_error')
+
+								if (doc.getElementById(variables[v]).value == '') {
+									dialog('', 'Falta', 'Falta ' + doc.getElementById('l' + variables[v]).innerHTML, 'Continuar');
+									error = 1;
+									return error;
+								}
+							}
+
+							if (!doc.getElementById('sms').checked && !doc.getElementById('llamadas').checked) {
+									dialog('', 'Selecciona Llamadas y/o SMS', 'Continuar');
+									error = 1;
+									return error;
+							}
+
+							return error;
+						},
+						actualizar: function() {
+
+							var error = this.comprueba_campos(),
+								droid = this.droid,
+								devid = this.devid,
+								pref = droid.prefGetValue('conf', 'galert.conf'),
+								conf = (pref.result != null) ? JSON.parse(pref.result) : {},
+								doc = document,
+								daemon_run = doc.getElementById('daemon_run'),
+								llamadas = doc.getElementById('llamadas'),
+								sms = doc.getElementById('sms');
+
+							if (!error) {
+
+								this.droid.prefPutValue('conf', 
+									{
+										'user': xor_crypt_string(doc.getElementById('user').value, devid), 
+										'pass': xor_crypt_string(doc.getElementById('pass').value, devid),
+										'user_not': xor_crypt_string(doc.getElementById('user_not').value, devid),
+										'llamadas': llamadas.checked ? 1 : 0,
+										'sms': sms.checked ? 1 : 0,
+										'daemon_run': daemon_run.options[daemon_run.selectedIndex].value
+									}, 
+									'galert.conf'
+								);
+
+								this.comprueba_campos();
+
+								this.droid.makeToast('Campos actualizados');
+							}
+						},
+						fin: function() {
+							var droid = this.droid;
+							
+							window.close();
+							droid.eventPost('js', 'daemon_stop');
+							droid.eventPost('js', 'fin');
+						},
+						cerrar: function() {
+							var droid = this.droid,
+								pref = droid.prefGetValue('conf', 'galert.conf'),
+								conf = (pref.result != null) ? JSON.parse(pref.result) : {},
+								daemon_run = document.getElementById('daemon_run');
+
+							if (daemon_run.options[daemon_run.selectedIndex].value == 'off' || conf['daemon_run'] == 'off') {
+								this.fin();
+							}
+							else {
+								var intent = droid.makeIntent("android.intent.action.MAIN", null, null, null, ['android.intent.category.HOME'], "com.android.launcher", "com.android.launcher.Launcher").result,
+									intent2 = droid.makeIntent("android.intent.action.MAIN", null, null, null, ['android.intent.category.HOME'], "com.android.launcher", "com.android.launcher2.Launcher").result,
+									activity = droid.startActivityIntent(intent).result || droid.startActivityIntent(intent2).result;
+							}
+						},
+						daemon_stat: function() {
+
+							var doc = document,
+								daemon_run = doc.getElementById('daemon_run'),
+								llamadas = doc.getElementById('llamadas'),
+								sms = doc.getElementById('sms'),
+								devid = this.devid,
+								droid = this.droid;
+
+							if (!this.comprueba_campos()) {
+
+								this.droid.prefPutValue('conf', 
+									{
+										'user': xor_crypt_string(doc.getElementById('user').value, devid), 
+										'pass': xor_crypt_string(doc.getElementById('pass').value, devid),
+										'user_not': xor_crypt_string(doc.getElementById('user_not').value, devid),
+										'llamadas': llamadas.checked ? 1 : 0,
+										'sms': sms.checked ? 1 : 0,
+										'daemon_run': daemon_run.options[daemon_run.selectedIndex].value
+									}, 
+									'galert.conf'
+								);
+
+								switch(daemon_run.options[daemon_run.selectedIndex].value) {
+									case 'on':
+										droid.eventPost('js', 'daemon_start');
+										droid.makeToast('Servicio corriendo');
+										break;
+									case 'off':
+										droid.eventPost('js', 'daemon_stop');
+										droid.makeToast('Servicio parado');
+										break;
+								}
+							}
+							else {
+								daemon_run.options[0].selected;
+							}
+						}
+					};
+					
+					var droid = new Android();
+					
+					droid.registerCallback('python', function(result) {
+							switch(result['data']) {
+								case 'guardar_html':
+									Galert.actualizar();
+									break;
+							}
+						}
+					);
+					
+					document.body.addEventListener('touchmove', function(e) {
+					  // This prevents native scrolling from happening.
+					  e.preventDefault();
+					}, false);
+				</script>
+	</body>
+</html>
