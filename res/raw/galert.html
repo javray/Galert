@@ -1,4 +1,4 @@
-<!DOCTYPE html">
+<!DOCTYPE html>
 <html>
 	<head>
 		<title></title>
@@ -7,7 +7,8 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<style type="text/css">
 		
-		body {background: #222; padding: 1em; margin: 0; font-size: 20px; color: #777;}
+		body {background: #222; padding: 1em; margin: 0; font-size: 20px;
+		    color: #777}
 		 body * {margin: 0; padding: 0; font-family: helvetica, sans-serif;}
 		 p {margin: 0 0 1em; font-size: 14px;}
 		
@@ -24,6 +25,11 @@
 		overflow-x: visible;
 		overflow-y: visible
 		}
+
+        form {
+            opacity: 0;
+            -webkit-transition: opacity 0.5s linear;
+        }
 
 		 input, textarea, select {
 		   border: 1px solid #111;
@@ -126,6 +132,14 @@
 						<p><label for="user_not">Notificar a</label></p>
 						<p><input type="email" id="user_not"></p>
 						<p>
+							<input type="checkbox" name="llamadas" id="llamadas"> 
+							<label for="llamadas">Llamadas</label> 
+							<input type="checkbox" name="sms" id="sms"> 
+							<label for="sms">SMS</label>
+							<input type="checkbox" name="whatsapp" id="whatsapp"> 
+							<label for="sms">Whatsapp</label>
+						</p>
+						<p>
 							<select name="daemon_run" id="daemon_run" onchange="Galert.daemon_stat()">
 							<option value="off">
 								Off
@@ -134,14 +148,21 @@
 								On
 							</option>
 							</select>
-						<p>
-							<input type="checkbox" name="llamadas" id="llamadas"> 
-							<label for="llamadas">Llamadas</label> 
-							<input type="checkbox" name="sms" id="sms"> 
-							<label for="sms">SMS</label>
 						</p>
 					</p>
 				</form>
+				<div id='admob_ad'></div>
+<script type="text/javascript">
+var admob_vars = {
+ pubid: 'a14e8972bde904d', // publisher id
+ bgcolor: '000000', // background color (hex)
+ text: 'FFFFFF', // font-color (hex)
+ manual_mode: true,
+ test: false// test mode, set to false to receive live ads
+};
+</script>
+<script type="text/javascript" src="http://mmv.admob.com/static/iphone/iadmob.js"></script>
+				
 					<script type="text/javascript">
 					
 					function xor_crypt_string(str, pwd) {
@@ -167,12 +188,12 @@
 						variables: ['user', 'pass', 'user_not'],
 						devid: 0,
 						inicio: function() {
-
 							var pref = this.droid.prefGetValue('conf', 'galert.conf'),
 								doc = document,
 								daemon_run = doc.getElementById('daemon_run'),
 								llamadas = doc.getElementById('llamadas'),
 								sms = doc.getElementById('sms'),
+								whatsapp = doc.getElementById('whatsapp'),
 								droid = this.droid;
 
 							this.devid = droid.getDeviceId().result;
@@ -190,7 +211,11 @@
 								daemon_run.selectedIndex = conf['daemon_run'] == 'off' ? 0 : 1;
 								llamadas.checked = (conf['llamadas'] == 1);
 								sms.checked = (conf['sms'] == 1);
+								whatsapp.checked = (conf['whatsapp'] == 1);
 							}
+
+                            doc.getElementsByTagName('form')[0].style.opacity = 1;
+                                
 						},
 						dialog: function(titulo, texto, boton) {
 							var droid = this.droid;
@@ -210,8 +235,6 @@
 
 							for (var v in variables) {  
 
-								var elemento = doc.getElementById(variables[v] + '_error')
-
 								if (doc.getElementById(variables[v]).value == '') {
 									dialog('', 'Falta', 'Falta ' + doc.getElementById('l' + variables[v]).innerHTML, 'Continuar');
 									error = 1;
@@ -219,8 +242,8 @@
 								}
 							}
 
-							if (!doc.getElementById('sms').checked && !doc.getElementById('llamadas').checked) {
-									dialog('', 'Selecciona Llamadas y/o SMS', 'Continuar');
+							if (!doc.getElementById('sms').checked && !doc.getElementById('llamadas').checked && !doc.getElementById('whatsapp').checked) {
+									dialog('', 'Selecciona Llamadas y/o SMS y/o Whatsapp', 'Continuar');
 									error = 1;
 									return error;
 							}
@@ -237,7 +260,8 @@
 								doc = document,
 								daemon_run = doc.getElementById('daemon_run'),
 								llamadas = doc.getElementById('llamadas'),
-								sms = doc.getElementById('sms');
+								sms = doc.getElementById('sms'),
+								whatsapp = doc.getElementById('whatsapp');
 
 							if (!error) {
 
@@ -248,6 +272,7 @@
 										'user_not': xor_crypt_string(doc.getElementById('user_not').value, devid),
 										'llamadas': llamadas.checked ? 1 : 0,
 										'sms': sms.checked ? 1 : 0,
+										'whatsapp': whatsapp.checked ? 1 : 0,
 										'daemon_run': daemon_run.options[daemon_run.selectedIndex].value
 									}, 
 									'galert.conf'
@@ -257,6 +282,7 @@
 
 								this.droid.makeToast('Campos actualizados');
 							}
+							return false;
 						},
 						fin: function() {
 							var droid = this.droid;
@@ -265,27 +291,13 @@
 							droid.eventPost('js', 'daemon_stop');
 							droid.eventPost('js', 'fin');
 						},
-						cerrar: function() {
-							var droid = this.droid,
-								pref = droid.prefGetValue('conf', 'galert.conf'),
-								conf = (pref.result != null) ? JSON.parse(pref.result) : {},
-								daemon_run = document.getElementById('daemon_run');
-
-							if (daemon_run.options[daemon_run.selectedIndex].value == 'off' || conf['daemon_run'] == 'off') {
-								this.fin();
-							}
-							else {
-								var intent = droid.makeIntent("android.intent.action.MAIN", null, null, null, ['android.intent.category.HOME'], "com.android.launcher", "com.android.launcher.Launcher").result,
-									intent2 = droid.makeIntent("android.intent.action.MAIN", null, null, null, ['android.intent.category.HOME'], "com.android.launcher", "com.android.launcher2.Launcher").result,
-									activity = droid.startActivityIntent(intent).result || droid.startActivityIntent(intent2).result;
-							}
-						},
 						daemon_stat: function() {
 
 							var doc = document,
 								daemon_run = doc.getElementById('daemon_run'),
 								llamadas = doc.getElementById('llamadas'),
 								sms = doc.getElementById('sms'),
+								whatsapp = doc.getElementById('whatsapp'),
 								devid = this.devid,
 								droid = this.droid;
 
@@ -298,6 +310,7 @@
 										'user_not': xor_crypt_string(doc.getElementById('user_not').value, devid),
 										'llamadas': llamadas.checked ? 1 : 0,
 										'sms': sms.checked ? 1 : 0,
+										'whatsapp': whatsapp.checked ? 1 : 0,
 										'daemon_run': daemon_run.options[daemon_run.selectedIndex].value
 									}, 
 									'galert.conf'
@@ -321,20 +334,28 @@
 					};
 					
 					var droid = new Android();
-					
+
 					droid.registerCallback('python', function(result) {
 							switch(result['data']) {
 								case 'guardar_html':
 									Galert.actualizar();
 									break;
+								case 'parar':
+								    document.getElementById('daemon_run').selectedIndex = 0;
+								    break;
 							}
-						}
-					);
-					
+                    });
 					document.body.addEventListener('touchmove', function(e) {
 					  // This prevents native scrolling from happening.
 					  e.preventDefault();
 					}, false);
-				</script>
+
+                    setTimeout(function() {
+                        var ad = _admob.fetchAd(document.getElementById('admob_ad'));
+                        _admob.gotourl = function() {
+                            droid.view(arguments[0]);
+                        };
+                    }, 100);
+		</script>
 	</body>
 </html>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
   package="com.javray.galert"
-  android:versionCode="1"
-  android:versionName="0.9"
+  android:versionCode="7"
+  android:versionName="1.1.2"
   xmlns:android="http://schemas.android.com/apk/res/android">
   <application
-    android:debuggable="true"
+    android:debuggable="false"
     android:launchMode="singleInstance"
     android:icon="@drawable/script_logo_48"
     android:label="@string/app_name"
@@ -13,7 +13,7 @@
     <activity
       android:name=".ScriptActivity"
       android:configChanges="keyboardHidden|orientation"
-      android:theme="@android:style/Theme.Translucent.NoTitleBar">
+      android:theme="@android:style/Theme.Translucent">
       <intent-filter>
         <action
           android:name="android.intent.action.MAIN" />
@@ -32,12 +32,12 @@
     <activity
       android:configChanges="keyboardHidden|orientation"
       android:name="com.googlecode.android_scripting.activity.FutureActivity" 
-      android:theme="@android:style/Theme.Translucent"/>
-    <activity android:theme="@android:style/Theme.Translucent.NoTitleBar" 
+      android:theme="@style/gTheme"/>
+    <activity android:theme="@style/gTheme" 
       android:configChanges="keyboardHidden|orientation" 
       android:name=".DialogActivity"/>
 </application>
-  <uses-sdk android:minSdkVersion="4"/>
+  <uses-sdk android:minSdkVersion="7"/>
   <uses-permission
     android:name="android.permission.INTERNET" />
   <!-- <uses-permission
@@ -282,8 +282,4 @@
    android:name="android.permission.WRITE_SYNC_SETTINGS"/> -->
   <!-- <uses-permission
    android:name="android.permission.WRITE_USER_DICTIONARY"/> -->
-
-
-<uses-permission android:name="android.permission.VIBRATE"></uses-permission>
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 </manifest>

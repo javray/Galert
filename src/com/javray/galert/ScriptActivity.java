@@ -27,11 +27,15 @@ import android.os.IBinder;
 import com.googlecode.android_scripting.Constants;
 import com.googlecode.android_scripting.facade.ActivityResultFacade;
 import com.googlecode.android_scripting.jsonrpc.RpcReceiverManager;
+import com.googlecode.android_scripting.Log;
+
 
 /**
  * @author Alexey Reznichenko (alexey.reznichenko@gmail.com)
  */
 public class ScriptActivity extends Activity {
+
+  ServiceConnection connection;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,7 @@ public class ScriptActivity extends Activity {
     if (Constants.ACTION_LAUNCH_SCRIPT_FOR_RESULT.equals(getIntent().getAction())) {
       setTheme(android.R.style.Theme_Dialog);
       setContentView(R.layout.dialog);
-      ServiceConnection connection = new ServiceConnection() {
+      connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
           ScriptService scriptService = ((ScriptService.LocalBinder) service).getService();
@@ -67,4 +71,6 @@ public class ScriptActivity extends Activity {
       finish();
     }
   }
+
+ 
 }

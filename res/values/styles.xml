@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="gcolor">#000</color>
+  <style name="gTheme" parent="android:Theme.Light">
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowBackground">@color/gcolor</item>
+    <item name="android:colorBackground">#fff</item>
+    <item name="android:colorForeground">#fff</item>
+  </style>
+</resources>
+
